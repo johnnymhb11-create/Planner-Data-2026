@@ -1,0 +1,30 @@
+table TabCateg
+	lineageTag: bc3c1520-e902-4f9a-b78f-4d08fe855e0d
+
+	column 'Nombre del depósito'
+		lineageTag: 60b82a9c-7646-408b-8bbb-08eafaf9cac4
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Tareas[Nombre del depósito]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cantidad Tareas'
+		formatString: 0
+		lineageTag: cbe0db0d-26c9-4ce6-912f-2fd00a01b4f4
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Cantidad Tareas]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition TabCateg = calculated
+		mode: import
+		source =
+				SUMMARIZE(
+				    Tareas,
+				    Tareas[Nombre del depósito],
+				    "Cantidad Tareas",COUNT(Tareas[Id. de tarea ]))
+
+	annotation PBI_Id = dfafd3f34635447089af9c9420e9a00c
+

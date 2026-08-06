@@ -1,0 +1,30 @@
+table 'ProDias DPagos'
+	lineageTag: c1372862-84df-4d2f-a3d8-f42bc760aa95
+
+	column 'Nombre del Mes'
+		lineageTag: 97877e5c-2294-4079-ae61-d5531ce2f15a
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: DPagos[Nombre del Mes]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Promedio dias habiles'
+		formatString: 0.00
+		lineageTag: 35b12be3-c6b8-4bad-bdd5-987454f7d9aa
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Promedio dias habiles]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'ProDias DPagos' = calculated
+		mode: import
+		source =
+				
+				SUMMARIZE(DPagos,
+				DPagos[Nombre del Mes],
+				"Promedio dias habiles",AVERAGE(DPagos[DiasHabiles]))
+
+	annotation PBI_Id = 7ebd238eac224263a9cbe00821bbc570
+

@@ -1,0 +1,122 @@
+table MEDIDAS
+	lineageTag: d1441962-05ff-40f7-86af-1b2c855b9a3d
+
+	measure CantExp = SUM(TabCateg[Cantidad Tareas])
+		formatString: 0
+		lineageTag: 006c8edb-da26-40b0-aa8c-eb9c9a407a61
+
+	measure 'Prom.diasCXP' = AVERAGE(CXP[DiasHabiles])
+		lineageTag: 64dcab60-5a78-4ada-9405-6ff500673c19
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure CantADiarios = COUNTROWS(ADiarios)
+		formatString: 0
+		lineageTag: 397c7850-fa70-483f-b1a3-97168e9141d4
+
+	measure 'Prom.diasADiarios' = AVERAGE(ADiarios[DiasHabiles])
+		lineageTag: 0a9436fc-55a5-48d3-be38-d810a022cb67
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure CantDPagos = COUNTROWS(DPagos)
+		formatString: 0
+		lineageTag: f5826041-be0e-4128-8886-5693c51ef093
+
+	measure 'Prom.diasDPagos' = AVERAGE(DPagos[DiasHabiles])
+		lineageTag: 4115f22f-6748-48cc-90a1-134fb92124ba
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Total_Tareas = COUNTROWS('Cantidad de tareas')
+		formatString: 0
+		lineageTag: e024f283-2da1-421d-9287-a96c8c91f9d4
+
+	measure Total_Tares_Globales = CALCULATE([Total_Tareas],ALL('Cantidad de tareas'[Categoria de Tiempo]))
+		formatString: 0
+		lineageTag: 036c9371-237f-45bd-bf8b-80395767e206
+
+	measure '% Tareas' = DIVIDE([Total_Tareas],[Total_Tares_Globales],0)
+		lineageTag: d8009882-08ce-48d1-be50-891eb20e7be1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Cxp %'
+		lineageTag: fb5b8482-0f10-4238-984e-612699a173b4
+
+	measure AvegProDias = AVERAGE(Tareas[DiasHabiles])
+		formatString: 0
+		lineageTag: d144c761-f540-47f2-ae11-37d3a8be7c63
+
+	measure 'Tareas Creadas Ayer (Cuentas por Pagar)' = ```
+			
+			COUNTROWS(
+			    FILTER(
+			        'Cantidad de tareas',
+			        'Cantidad de tareas'[Fecha de creación] = TODAY()-1 &&
+			        'Cantidad de tareas'[Nombre del depósito] = "Cuentas por pagar"
+			    )
+			)
+			
+			```
+		formatString: 0
+		lineageTag: ce957590-5e04-4e0a-82dc-98d43b08d974
+
+	measure 'Tareas No Iniciadas/En Curso (Hasta Hoy)' =
+			
+			CALCULATE(
+			    COUNTROWS('Cantidad de tareas'),
+			    'Cantidad de tareas'[Progreso] IN {"No iniciado", "En curso"},
+			    'Cantidad de tareas'[Fecha de creación] <= TODAY()
+			)
+		formatString: 0
+		lineageTag: 21d50cc6-57ea-49de-903d-732cdb52de85
+
+	measure 'Tareas Creadas Ayer (Diarios de Pago)' = ```
+			
+			COUNTROWS(
+			    FILTER(
+			        'Cantidad de tareas',
+			        'Cantidad de tareas'[Fecha de creación] = TODAY()-1 &&
+			        'Cantidad de tareas'[Nombre del depósito] = "Diarios de pago"
+			    )
+			)
+			
+			```
+		formatString: 0
+		lineageTag: f5fb7ca6-bd70-4eb4-af3a-448870e09495
+
+	measure 'Tareas Esperadas Hoy' = ```
+			
+			VAR PromedioMensual =
+			    AVERAGEX(
+			        SUMMARIZE(
+			            'Cantidad de tareas',
+			            'Cantidad de tareas'[Nombre del depósito],
+			            "Promedio Tareas Completadas", AVERAGE('Cantidad de tareas'[Id. de tarea ])
+			        ),
+			        [Promedio Tareas Completadas]
+			    )
+			
+			RETURN
+			    PromedioMensual
+			
+			```
+		formatString: 0
+		lineageTag: 112667da-fcfa-480f-92a7-aec51e97bff2
+
+	measure 'Actualizado al' = "Actualizado al " & FORMAT(NOW(), "dd/mm/yyyy")
+		lineageTag: bb86ed77-24ca-4604-9182-29ee86aa6041
+
+	partition MEDIDAS = m
+		mode: import
+		source =
+				let
+				    Origen = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Columna1 = _t]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(Origen,{{"Columna1", type text}}),
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Tipo cambiado",{"Columna1"})
+				in
+				    #"Columnas quitadas"
+
+	annotation PBI_ResultType = Table
+

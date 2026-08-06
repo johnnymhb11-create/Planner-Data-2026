@@ -1,0 +1,143 @@
+relationship 4873edf3-cec8-4353-b6b4-718e750fc79f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Tareas.'Fecha de creación'
+	toColumn: LocalDateTable_3c06a24f-2470-4f1e-b667-600e2bdf4457.Date
+
+relationship c585e294-9bca-4e3b-ad42-0db614b88505
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Tareas.'Fecha de inicio'
+	toColumn: LocalDateTable_2be555f5-a1b5-44d5-ae7d-c15c7e269b43.Date
+
+relationship 76938e46-ef52-4738-907e-807da4879521
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Tareas.'Fecha de vencimiento'
+	toColumn: LocalDateTable_dbc73fe9-47f9-413c-9679-949e1e2d133b.Date
+
+relationship d529d6e2-2b6e-4d16-8b39-1eb84e37f3b2
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Tareas.'Fecha de finalización'
+	toColumn: LocalDateTable_2fe3566e-b99f-4ad0-8342-689f86efcc59.Date
+
+relationship 7c02a7ab-181d-4c05-806d-019e75ce21ea
+	joinOnDateBehavior: datePartOnly
+	fromColumn: CXP.'Fecha de creación'
+	toColumn: LocalDateTable_c6a03a19-a50b-4322-b9cd-dee39cb1cbbb.Date
+
+relationship 4cb15511-896e-400e-b38a-5540e08b074a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: CXP.'Fecha de inicio'
+	toColumn: LocalDateTable_8f169014-c304-4a4a-8b7c-d8b7b6273a5d.Date
+
+relationship 08969f1a-25e5-4979-8346-a48123bba47d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: CXP.'Fecha de vencimiento'
+	toColumn: LocalDateTable_1b60e171-1c9e-4387-babe-ab265e0c6e9c.Date
+
+relationship 72b1b9a8-ccfa-46bd-b446-df4c09c3a7d5
+	joinOnDateBehavior: datePartOnly
+	fromColumn: CXP.'Fecha de finalización'
+	toColumn: LocalDateTable_aaa316ce-8766-45cd-acb1-10b2a2cd9c38.Date
+
+relationship 73cd0dcd-ae9d-45d6-894d-a43f7b6fde6d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DPagos.'Fecha de creación'
+	toColumn: LocalDateTable_aa5401ad-a147-44ed-838e-46ea23542f76.Date
+
+relationship fb0cca4f-16b8-42f5-aae1-6945d88f7fce
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DPagos.'Fecha de inicio'
+	toColumn: LocalDateTable_40cef8d6-8732-4f94-a38b-0e91e3d71d5b.Date
+
+relationship 118fe7d5-62b6-4258-885a-86dfdfcac356
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DPagos.'Fecha de vencimiento'
+	toColumn: LocalDateTable_4e1f4ecb-f554-4a5d-b3f6-3f1ec2a2def2.Date
+
+relationship f4230957-3e3b-4ba3-9d1b-5e47bea7533f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DPagos.'Fecha de finalización'
+	toColumn: LocalDateTable_2936e894-6bab-42a5-8b27-7db7e2bda303.Date
+
+relationship 3bbd6c2e-f9d3-73c6-9e56-6d64fc2c428c
+	crossFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: CXP.'Nombre del depósito'
+	toColumn: Tareas.'Nombre del depósito'
+
+relationship 6d0c1d19-4eea-a7c1-57ff-be9d815bd140
+	crossFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: DPagos.'Nombre del depósito'
+	toColumn: Tareas.'Nombre del depósito'
+
+relationship 6371ed48-3841-7ecf-e4b1-117277eada3e
+	fromColumn: Tareas.'Nombre del Mes'
+	toColumn: 'ProDias ADiarios'.'Nombre del Mes'
+
+relationship e2186163-db2f-f166-5607-0ad5f7ec5222
+	fromColumn: Tareas.'Nombre del Mes'
+	toColumn: 'ProDias DPagos'.'Nombre del Mes'
+
+relationship 304c69fb-ed0a-fbf1-82e1-5d419751694e
+	fromColumn: Tareas.'Nombre del Mes'
+	toColumn: 'ProDias CXP'.'Nombre del Mes'
+
+relationship 5360182f-3748-47c6-d529-cb74ef60e47b
+	crossFilteringBehavior: bothDirections
+	fromColumn: Tareas.'Nombre del depósito'
+	toColumn: TabCateg.'Nombre del depósito'
+
+relationship 27048b38-b99e-44cc-9972-529f5a7cfafc
+	crossFilteringBehavior: bothDirections
+	securityFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: 'Cantidad de tareas'.'Nombre del depósito'
+	toColumn: Tareas.'Nombre del depósito'
+
+relationship 2bd9204b-78c8-3804-d748-488a3f44b06b
+	crossFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: ProDias.'Nombre del depósito'
+	toColumn: 'Cantidad de tareas'.'Nombre del depósito'
+
+relationship 93d37d0a-9dc7-4487-b5da-eef88fcdf017
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Cantidad de tareas'.'Fecha de creación'
+	toColumn: LocalDateTable_55c907d7-212a-4563-84c5-55eecd13b082.Date
+
+relationship ba00f660-a452-4fa1-8c83-0ddaa57fe99d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Cantidad de tareas'.'Fecha de inicio'
+	toColumn: LocalDateTable_2b29392d-5376-496e-97b4-d232c672804c.Date
+
+relationship 24c1cc0e-04df-4c52-aa70-80f4d4afd0cc
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Cantidad de tareas'.'Fecha de finalización'
+	toColumn: LocalDateTable_aeb5a35e-6e45-4348-b2ac-7572b6c30f71.Date
+
+relationship 304cc8bd-c3d0-a392-58b2-bd45af2c3c09
+	crossFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: ADiarios.'Nombre del depósito'
+	toColumn: Tareas.'Nombre del depósito'
+
+relationship 4e5dfac7-a47d-4ceb-b956-a22e022a2ba8
+	joinOnDateBehavior: datePartOnly
+	fromColumn: ADiarios.'Fecha de creación'
+	toColumn: LocalDateTable_9336429c-08ff-4cd4-b31c-b1ce4289c4dd.Date
+
+relationship 89bda3e4-e7b9-45bb-8e55-05357097ab1f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: ADiarios.'Fecha de inicio'
+	toColumn: LocalDateTable_b04ec962-4015-46d4-a70a-63c621d1793f.Date
+
+relationship 2346890e-05a3-42a5-a42b-4eda1e988ca4
+	joinOnDateBehavior: datePartOnly
+	fromColumn: ADiarios.'Fecha de vencimiento'
+	toColumn: LocalDateTable_8c461b25-2f6c-4217-a6bd-81679c06dda9.Date
+
+relationship a80095ca-bf1c-4883-b30a-6f34530a3bf6
+	joinOnDateBehavior: datePartOnly
+	fromColumn: ADiarios.'Fecha de finalización'
+	toColumn: LocalDateTable_06f75828-5e71-498d-88ac-ae82cef78c16.Date
+

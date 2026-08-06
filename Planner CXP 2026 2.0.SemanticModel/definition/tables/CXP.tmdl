@@ -1,0 +1,249 @@
+table CXP
+	lineageTag: 20384bba-cd64-4c98-9507-f0d0adef21f0
+
+	column 'Id. de tarea '
+		lineageTag: 9febd56b-13c9-4e9c-8a0e-362d4962a0b6
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Tareas[Id. de tarea ]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nombre de la tarea'
+		lineageTag: ebd4c6a0-6671-4807-9a01-bbf96ac8016a
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Tareas[Nombre de la tarea]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nombre del depósito'
+		lineageTag: 8c895b57-ede4-4c72-9f92-8624ea9bd096
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Tareas[Nombre del depósito]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Progreso
+		lineageTag: b47f9e48-43d8-4c22-bc7b-792eb2fa9307
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Tareas[Progreso]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Priority
+		lineageTag: 3694e0df-a863-4c22-951f-7620ddab5d5b
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Tareas[Priority]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Asignado a'
+		lineageTag: 338c89d9-314a-4366-b0a7-909d4baca0d9
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Tareas[Asignado a]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Creado por'
+		lineageTag: fcf2c508-eef1-4614-b21e-0fbccc370068
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Tareas[Creado por]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Fecha de creación'
+		formatString: General Date
+		lineageTag: 168dbe3d-e43b-4d8e-834d-fdc1a604c31c
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Tareas[Fecha de creación]
+
+		variation Variación
+			isDefault
+			relationship: 7c02a7ab-181d-4c05-806d-019e75ce21ea
+			defaultHierarchy: LocalDateTable_c6a03a19-a50b-4322-b9cd-dee39cb1cbbb.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Fecha de inicio'
+		formatString: General Date
+		lineageTag: 6ff191c0-9dc3-4740-9694-40e272d6ba1a
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Tareas[Fecha de inicio]
+
+		variation Variación
+			isDefault
+			relationship: 4cb15511-896e-400e-b38a-5540e08b074a
+			defaultHierarchy: LocalDateTable_8f169014-c304-4a4a-8b7c-d8b7b6273a5d.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Fecha de vencimiento'
+		formatString: General Date
+		lineageTag: 60d1a11c-46c3-40dd-87c6-2cf730bc0f54
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Tareas[Fecha de vencimiento]
+
+		variation Variación
+			isDefault
+			relationship: 08969f1a-25e5-4979-8346-a48123bba47d
+			defaultHierarchy: LocalDateTable_1b60e171-1c9e-4387-babe-ab265e0c6e9c.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Es periódica'
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 70f9353e-6e77-4a22-adc3-4d5a49cf0933
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Tareas[Es periódica]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Con retraso'
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: bcfa60b3-048d-4132-8388-4754846a5699
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Tareas[Con retraso]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Fecha de finalización'
+		formatString: General Date
+		lineageTag: ad699ef2-412e-41bb-9469-cebec4dc5cfd
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Tareas[Fecha de finalización]
+
+		variation Variación
+			isDefault
+			relationship: 72b1b9a8-ccfa-46bd-b446-df4c09c3a7d5
+			defaultHierarchy: LocalDateTable_aaa316ce-8766-45cd-acb1-10b2a2cd9c38.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Completado por'
+		lineageTag: 8d64fd27-5cde-4a5e-a667-de7fafc493b9
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Tareas[Completado por]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Elementos de la lista de comprobación completados'
+		lineageTag: 9be9a386-4815-46df-90e9-098d9dc2e643
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Tareas[Elementos de la lista de comprobación completados]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Elementos de la lista de comprobación'
+		lineageTag: f42d6b8c-f4d9-4de7-9aa7-9d9fa65596d8
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Tareas[Elementos de la lista de comprobación]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Etiquetas
+		lineageTag: 57b8edc1-31ed-4aec-b1ef-da88452f9d0c
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Tareas[Etiquetas]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Descripción
+		lineageTag: 2e4c9708-c5ba-4a91-af16-45599ea3a0bc
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Tareas[Descripción]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tiempo hoy'
+		lineageTag: 2253dbb0-379c-4c97-9ac0-85498a49a066
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Tareas[Tiempo hoy]
+
+		annotation SummarizationSetBy = Automatic
+
+	column DiasHabiles
+		formatString: 0
+		lineageTag: b595037b-1715-4d42-84cf-83fd46d3561d
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: Tareas[DiasHabiles]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Categoria de Tiempo'
+		lineageTag: eb2dec4f-1a9b-4c2e-9cff-ebf6921d5621
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Tareas[Categoria de Tiempo]
+		sortByColumn: NumCatg
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mes
+		formatString: 0
+		lineageTag: b4aaa553-6afc-4242-8f2f-2559b5f797a0
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: Tareas[Mes]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nombre del Mes'
+		lineageTag: 60781aba-3ec1-4a95-a501-f9697a14bcf0
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Tareas[Nombre del Mes]
+		sortByColumn: Mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column NumCatg
+		formatString: 0
+		lineageTag: 21591a6e-e354-407a-b6ab-8d609f296c3b
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: Tareas[NumCatg]
+
+		annotation SummarizationSetBy = Automatic
+
+	column NumBucket
+		formatString: 0
+		lineageTag: 5ebd4926-53b4-4e40-a850-010eaa8ce279
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: Tareas[NumBucket]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Objetivo
+		lineageTag: eae1f5ce-d558-4619-bd19-385c59821d74
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Tareas[Objetivo]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition CXP = calculated
+		mode: import
+		source = FILTER(Tareas,Tareas[Nombre del depósito]="Cuentas por pagar")
+
+	annotation PBI_Id = 2cbf2f388a89450eaad5b77b514780f5
+

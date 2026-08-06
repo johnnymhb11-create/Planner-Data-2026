@@ -1,0 +1,353 @@
+table Tareas
+	lineageTag: d4e26f5b-d6c3-481e-bfe8-de62e38fc40e
+
+	measure 'Total de Promedio de DiasHabiles para Nombre del depósito' =
+			
+			CALCULATE(
+				AVERAGE('Tareas'[DiasHabiles]),
+				ALLSELECTED('Tareas'[Nombre del depósito])
+			)
+		formatString: 0
+		lineageTag: 28e26583-556f-4927-9768-9db16453bfae
+
+		extendedProperty MeasureTemplate =
+				{
+				  "version": 0,
+				  "daxTemplateName": "TotalForSelectedCategory"
+				}
+
+		changedProperty = FormatString
+
+	column 'Id. de tarea '
+		dataType: string
+		lineageTag: 2f85876e-449c-4a1c-8268-b273197dcbc0
+		summarizeBy: none
+		sourceColumn: "Id. de tarea "
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nombre de la tarea'
+		dataType: string
+		lineageTag: 9b9677ea-b65a-4ec7-8580-08f3765e6f00
+		summarizeBy: none
+		sourceColumn: Nombre de la tarea
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nombre del depósito'
+		dataType: string
+		lineageTag: 634c8210-7b1e-4791-8932-eb15864ca0dd
+		summarizeBy: none
+		sourceColumn: Nombre del depósito
+
+		annotation SummarizationSetBy = Automatic
+
+	column Progreso
+		dataType: string
+		lineageTag: d5a4a09b-c1b8-47d6-a8ff-5dbcaef867b5
+		summarizeBy: none
+		sourceColumn: Progreso
+
+		annotation SummarizationSetBy = Automatic
+
+	column Priority
+		dataType: string
+		lineageTag: 17bcfb2a-e256-4654-bb5b-35c60dfbe97a
+		summarizeBy: none
+		sourceColumn: Priority
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Asignado a'
+		dataType: string
+		lineageTag: e92141cf-bb46-4d7d-a9c4-2d2998aa2f5e
+		summarizeBy: none
+		sourceColumn: Asignado a
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Creado por'
+		dataType: string
+		lineageTag: 28000ddc-b1c4-45b2-afde-dffdc64265d8
+		summarizeBy: none
+		sourceColumn: Creado por
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Fecha de creación'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 53b8e7dd-ed5f-4a08-a632-bf9e20082999
+		summarizeBy: none
+		sourceColumn: Fecha de creación
+
+		variation Variación
+			isDefault
+			relationship: 4873edf3-cec8-4353-b6b4-718e750fc79f
+			defaultHierarchy: LocalDateTable_3c06a24f-2470-4f1e-b667-600e2bdf4457.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Fecha de inicio'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 73f8c387-4770-441e-b4eb-95537a5e6547
+		summarizeBy: none
+		sourceColumn: Fecha de inicio
+
+		variation Variación
+			isDefault
+			relationship: c585e294-9bca-4e3b-ad42-0db614b88505
+			defaultHierarchy: LocalDateTable_2be555f5-a1b5-44d5-ae7d-c15c7e269b43.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Fecha de vencimiento'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 59270f31-ebd3-4a4e-9b16-15010781b431
+		summarizeBy: none
+		sourceColumn: Fecha de vencimiento
+
+		variation Variación
+			isDefault
+			relationship: 76938e46-ef52-4738-907e-807da4879521
+			defaultHierarchy: LocalDateTable_dbc73fe9-47f9-413c-9679-949e1e2d133b.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Es periódica'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 2161ed29-cf7c-44ea-863a-23bda3395e6f
+		summarizeBy: none
+		sourceColumn: Es periódica
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Con retraso'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 1d998394-19ea-4d19-97ac-b61171d4568e
+		summarizeBy: none
+		sourceColumn: Con retraso
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Fecha de finalización'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 46c37292-ce2f-4eb6-8208-b735a121ac84
+		summarizeBy: none
+		sourceColumn: Fecha de finalización
+
+		variation Variación
+			isDefault
+			relationship: d529d6e2-2b6e-4d16-8b39-1eb84e37f3b2
+			defaultHierarchy: LocalDateTable_2fe3566e-b99f-4ad0-8342-689f86efcc59.'Jerarquía de fechas'
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Completado por'
+		dataType: string
+		lineageTag: 3f8a2b98-3001-4c1c-b227-9daddf075499
+		summarizeBy: none
+		sourceColumn: Completado por
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Elementos de la lista de comprobación completados'
+		dataType: string
+		lineageTag: 16cd92d6-aafb-4d2d-8bf9-cb56be515ebe
+		summarizeBy: none
+		sourceColumn: Elementos de la lista de comprobación completados
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Elementos de la lista de comprobación'
+		dataType: string
+		lineageTag: f8b875ee-7b80-47ac-b741-5746b4fca488
+		summarizeBy: none
+		sourceColumn: Elementos de la lista de comprobación
+
+		annotation SummarizationSetBy = Automatic
+
+	column Etiquetas
+		dataType: string
+		lineageTag: 11c2747b-4cb3-4993-b7d2-980837982db1
+		summarizeBy: none
+		sourceColumn: Etiquetas
+
+		annotation SummarizationSetBy = Automatic
+
+	column Descripción
+		dataType: string
+		lineageTag: bee7e60c-ce77-43e4-9c6b-252e3d0106ce
+		summarizeBy: none
+		sourceColumn: Descripción
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tiempo hoy' = ```
+			
+			IF(
+			    ISBLANK(Tareas[Fecha de finalización]),"En Progreso",
+			    VAR StartDate = Tareas[Fecha de creación]
+			    VAR EndDate = Tareas[Fecha de finalización]
+			    VAR TotalDays = DATEDIFF(StartDate, EndDate, DAY)
+			    RETURN 
+			        IF(
+			            ISBLANK(StartDate) || ISBLANK(EndDate),
+			            BLANK(),
+			            VAR DateTable = 
+			                ADDCOLUMNS(
+			                    CALENDAR(StartDate, EndDate),
+			                    "Weekday", WEEKDAY([Date], 2)
+			                )
+			            VAR WeekdaysCount = 
+			                COUNTROWS(
+			                    FILTER(
+			                        DateTable,
+			                        [Weekday] <= 5
+			                    )
+			                )
+			            RETURN FORMAT(WeekdaysCount, "General Number")
+			        )
+			)
+			```
+		lineageTag: f8364e17-4939-427a-ba18-7f74d2f60abb
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column DiasHabiles = ```
+			
+			VAR FechaInicial = [Fecha de creación] 
+			VAR FechaFinal = IF(ISBLANK(Tareas[Fecha de finalización]), TODAY(), Tareas[Fecha de finalización])
+			VAR DiasTotales = DATEDIFF(FechaInicial, FechaFinal, DAY)
+			VAR DiasHabiles = 
+			    SUMX(
+			        GENERATESERIES(0, DiasTotales),
+			        VAR FechaActual = FechaInicial + [Value]
+			        RETURN IF(WEEKDAY(FechaActual, 2) < 6, 1, 0)
+			    )
+			RETURN DiasHabiles
+			
+			```
+		formatString: 0
+		lineageTag: 965d3f3f-e858-4e67-a38f-c7c8aa8fc719
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Categoria de Tiempo' =
+			
+			IF(Tareas[DiasHabiles]<5,"Menos de 5 días",
+			IF(Tareas[DiasHabiles]<10,"Entre 6 y 10 días",
+			IF(Tareas[DiasHabiles]<15,"Entre 11 y 15 días",
+			IF(Tareas[DiasHabiles]<20,"Entre 16 y 20 días",
+			IF(Tareas[DiasHabiles]<25,"Entre 21 y 25 días",
+			IF(Tareas[DiasHabiles]>=25,"Mayor de 25 días"))))))
+		lineageTag: 2f5103f1-c928-4008-a97b-d9b9e678cd89
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mes = MONTH(Tareas[Fecha de creación])
+		formatString: 0
+		lineageTag: 49106f23-498e-4290-9751-0abfbd9910d4
+		summarizeBy: sum
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nombre del Mes' = ```
+			
+			SWITCH(
+			    Tareas[Mes],
+			    1, "Enero",
+			    2, "Febrero",
+			    3, "Marzo",
+			    4, "Abril",
+			    5, "Mayo",
+			    6, "Junio",
+			    7, "Julio",
+			    8, "Agosto",
+			    9, "Septiembre",
+			    10, "Octubre",
+			    11, "Noviembre",
+			    12, "Diciembre",
+			    "Mes Desconocido"  // Valor por defecto si el número no está entre 1 y 12
+			)
+			
+			```
+		lineageTag: 790acef8-c62f-4628-9ef1-2d44a34136db
+		summarizeBy: none
+		sortByColumn: Mes
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column NumCatg = ```
+			
+			IF(Tareas[Categoria de Tiempo] = "Menos de 5 días", 1, 
+			IF(Tareas[Categoria de Tiempo] = "Entre 6 y 10 días", 2, 
+			IF(Tareas[Categoria de Tiempo] = "Entre 11 y 15 días", 3, 
+			IF(Tareas[Categoria de Tiempo] = "Entre 16 y 20 días", 4,
+			IF(Tareas[Categoria de Tiempo] = "Entre 21 y 25 días", 5,
+			IF(Tareas[Categoria de Tiempo] = "Mayor de 25 días",6))))))
+			```
+		formatString: 0
+		lineageTag: 6da399c9-3f00-4391-a092-17c1998992ca
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column NumBucket =
+			IF
+			(Tareas[Nombre del depósito] = "Cuentas por Pagar",1,
+			IF(Tareas[Nombre del depósito] = "Asignación de Diarios de Pagos", 2,
+			IF(Tareas[Nombre del depósito] = "Diarios de Pago",3,
+			IF(Tareas[Nombre del depósito] = "Presupuesto",4,
+			IF(Tareas[Nombre del depósito] = "Presupuesto - En Espera de Respuesta",5)))))
+		formatString: 0
+		lineageTag: 670da416-901a-4703-8e7d-c0d714ddfbd1
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Objetivo
+		dataType: string
+		lineageTag: e46cceec-4ff1-4d77-96f8-6e81be7c235e
+		summarizeBy: none
+		sourceColumn: Objetivo
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Tareas = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(Web.Contents("https://sibgobdo.sharepoint.com/sites/DireccinAdministrativayFinanciera/Documentos%20compartidos/Proyecciones/PowerBI%20Data1/Cuentas%20por%20pagar%20y%20Pagos%202026.xlsx"), null, true),
+				    Tareas_Sheet = Origen{[Item="Tareas",Kind="Sheet"]}[Data],
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Tareas_Sheet, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"Id. de tarea ", type text}, {"Nombre de la tarea", type text}, {"Nombre del depósito", type text}, {"Progreso", type text}, {"Priority", type text}, {"Asignado a", type text}, {"Creado por", type text}, {"Fecha de creación", type date}, {"Fecha de inicio", type date}, {"Fecha de vencimiento", type date}, {"Es periódica", type logical}, {"Con retraso", type logical}, {"Fecha de finalización", type date}, {"Completado por", type text}, {"Elementos de la lista de comprobación completados", type text}, {"Elementos de la lista de comprobación", type text}, {"Etiquetas", type text}, {"Descripción", type text}})
+				in
+				    #"Tipo cambiado"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

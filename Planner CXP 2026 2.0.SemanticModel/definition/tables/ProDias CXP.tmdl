@@ -1,0 +1,30 @@
+table 'ProDias CXP'
+	lineageTag: 31e9b6f6-824a-45e1-8874-0fe9e8f01925
+
+	column 'Promedio dias habiles'
+		formatString: 0.00
+		lineageTag: 6cae9980-69d4-4caa-acbe-daca8ecc1dff
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Promedio dias habiles]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nombre del Mes'
+		lineageTag: 513f5d5d-6314-4d9f-b8fe-b99de1560434
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: CXP[Nombre del Mes]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'ProDias CXP' = calculated
+		mode: import
+		source =
+				
+				SUMMARIZE(CXP,
+				CXP[Nombre del Mes],
+				"Promedio dias habiles",AVERAGE(CXP[DiasHabiles]))
+
+	annotation PBI_Id = b18eb00c83714fd0b36ec567e6824b8d
+

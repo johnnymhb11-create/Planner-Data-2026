@@ -1,0 +1,71 @@
+table ProDias
+	lineageTag: 0e4ba89e-6e0c-4c53-98b6-86a3e892afc9
+
+	column 'Nombre del depósito'
+		lineageTag: c016be84-4a32-49f8-8199-e88f9ea00425
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Tareas[Nombre del depósito]
+		sortByColumn: NumBucket
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nombre del Mes'
+		dataType: string
+		lineageTag: 21d1a219-b9a5-4fc8-9c46-0a022cf5de91
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Tareas[Nombre del Mes]
+		sortByColumn: Mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Promedio mensual'
+		formatString: 0.00
+		lineageTag: 913d464f-bc98-4a4d-8209-6859c90ae599
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Promedio mensual]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mes
+		formatString: 0
+		lineageTag: 9014c953-c1d7-4b5e-b442-fa276b79f24c
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: Tareas[Mes]
+
+		annotation SummarizationSetBy = Automatic
+
+	column NumBucket
+		formatString: 0
+		lineageTag: 0538bf46-60af-486b-83b2-322e8f37ff46
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: Tareas[NumBucket]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Progreso
+		lineageTag: e5b41cdd-6dad-4cf7-a150-5bdc367e97d7
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Tareas[Progreso]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ProDias = calculated
+		mode: import
+		source =
+				
+				SUMMARIZE(Tareas,
+				[Mes],
+				Tareas[Nombre del Mes],
+				Tareas[Nombre del depósito],
+				Tareas[Progreso],
+				Tareas[NumBucket],
+				"Promedio mensual", AVERAGE(Tareas[DiasHabiles]))
+
+	annotation PBI_Id = 42df52299d15498b9cd647834064a644
+

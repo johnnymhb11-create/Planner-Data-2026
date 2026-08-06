@@ -1,0 +1,55 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "d53981d154dded139c2e",
+  "position": {
+    "x": 0,
+    "y": 49,
+    "z": 3000,
+    "height": 427,
+    "width": 320,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Cantidad de tareas"
+                    }
+                  },
+                  "Property": "Descripción"
+                }
+              },
+              "queryRef": "Cantidad de tareas.Descripción",
+              "nativeQueryRef": "Descripción"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Cantidad de tareas"
+                  }
+                },
+                "Property": "Descripción"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

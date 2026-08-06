@@ -1,0 +1,48 @@
+model Model
+	culture: es-MX
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: es-MX
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["Tareas","MEDIDAS"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table Tareas
+ref table DateTableTemplate_85f03027-b1ee-4b2a-a2f5-cc2ffd480c6b
+ref table LocalDateTable_3c06a24f-2470-4f1e-b667-600e2bdf4457
+ref table LocalDateTable_2be555f5-a1b5-44d5-ae7d-c15c7e269b43
+ref table LocalDateTable_dbc73fe9-47f9-413c-9679-949e1e2d133b
+ref table LocalDateTable_2fe3566e-b99f-4ad0-8342-689f86efcc59
+ref table MEDIDAS
+ref table CXP
+ref table LocalDateTable_c6a03a19-a50b-4322-b9cd-dee39cb1cbbb
+ref table LocalDateTable_8f169014-c304-4a4a-8b7c-d8b7b6273a5d
+ref table LocalDateTable_1b60e171-1c9e-4387-babe-ab265e0c6e9c
+ref table LocalDateTable_aaa316ce-8766-45cd-acb1-10b2a2cd9c38
+ref table ADiarios
+ref table DPagos
+ref table LocalDateTable_aa5401ad-a147-44ed-838e-46ea23542f76
+ref table LocalDateTable_40cef8d6-8732-4f94-a38b-0e91e3d71d5b
+ref table LocalDateTable_4e1f4ecb-f554-4a5d-b3f6-3f1ec2a2def2
+ref table LocalDateTable_2936e894-6bab-42a5-8b27-7db7e2bda303
+ref table 'ProDias CXP'
+ref table 'ProDias ADiarios'
+ref table 'ProDias DPagos'
+ref table ProDias
+ref table 'Cantidad de tareas'
+ref table TabCateg
+ref table LocalDateTable_55c907d7-212a-4563-84c5-55eecd13b082
+ref table LocalDateTable_2b29392d-5376-496e-97b4-d232c672804c
+ref table LocalDateTable_aeb5a35e-6e45-4348-b2ac-7572b6c30f71
+ref table LocalDateTable_9336429c-08ff-4cd4-b31c-b1ce4289c4dd
+ref table LocalDateTable_b04ec962-4015-46d4-a70a-63c621d1793f
+ref table LocalDateTable_8c461b25-2f6c-4217-a6bd-81679c06dda9
+ref table LocalDateTable_06f75828-5e71-498d-88ac-ae82cef78c16
+
+ref cultureInfo es-MX
+

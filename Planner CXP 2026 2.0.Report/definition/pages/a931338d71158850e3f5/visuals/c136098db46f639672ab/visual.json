@@ -1,0 +1,82 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "c136098db46f639672ab",
+  "position": {
+    "x": 0,
+    "y": 538,
+    "z": 2000,
+    "height": 62,
+    "width": 320,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Cantidad de tareas"
+                        }
+                      },
+                      "Property": "Fecha de finalización"
+                    }
+                  },
+                  "Function": 3
+                }
+              },
+              "queryRef": "Min(Cantidad de tareas.Fecha de finalización)",
+              "nativeQueryRef": "Fecha de finalización",
+              "displayName": "Fecha de finalización"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Aggregation": {
+                "Expression": {
+                  "Column": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "Cantidad de tareas"
+                      }
+                    },
+                    "Property": "Fecha de finalización"
+                  }
+                },
+                "Function": 3
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "labels": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

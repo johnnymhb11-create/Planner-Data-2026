@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "388f8c425eb05b68d299",
+  "position": {
+    "x": 334.02985074626866,
+    "y": 25.970149253731343,
+    "z": 6000,
+    "height": 39.402985074626862,
+    "width": 376.1194029850746,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Tareas completadas - Mes de Mayo",
+                    "textStyle": {
+                      "fontFamily": "Arial Black",
+                      "fontSize": "11pt",
+                      "color": "#094780"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

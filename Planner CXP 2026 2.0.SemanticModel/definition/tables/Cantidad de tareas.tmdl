@@ -1,0 +1,158 @@
+table 'Cantidad de tareas'
+	lineageTag: ebe0280f-a04b-4efd-b374-86a50238b89b
+
+	column 'Id. de tarea '
+		lineageTag: a312c2ab-fb6d-4f88-b69d-b21a59e62757
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Tareas[Id. de tarea ]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nombre del depósito'
+		lineageTag: 7b0a6a94-c0c1-4e95-a67e-2ae17c401afe
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Tareas[Nombre del depósito]
+		sortByColumn: NumBucket
+
+		annotation SummarizationSetBy = Automatic
+
+	column NumBucket
+		formatString: 0
+		lineageTag: c0b2a5a1-f65f-421b-b27e-7ac894499189
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: Tareas[NumBucket]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Descripción
+		lineageTag: ab897815-fc02-4f26-b06d-7aa7764ca853
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Tareas[Descripción]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nombre de la tarea'
+		lineageTag: dc9c4222-39c8-4b51-8661-6741e8420a16
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Tareas[Nombre de la tarea]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mes
+		formatString: 0
+		lineageTag: 2873d690-087a-4708-885a-f2191bd6b6eb
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: Tareas[Mes]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nombre del Mes'
+		lineageTag: 891be6cf-5452-4d76-b559-26b2ca92e666
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Tareas[Nombre del Mes]
+		sortByColumn: Mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column Progreso
+		lineageTag: 53c4c497-e1a2-4190-9411-98f24754dfab
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Tareas[Progreso]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Categoria de Tiempo'
+		lineageTag: 62934695-508f-413e-b1e5-add0c3411fae
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Tareas[Categoria de Tiempo]
+		sortByColumn: NumCatg
+
+		annotation SummarizationSetBy = Automatic
+
+	column NumCatg
+		formatString: 0
+		lineageTag: c70c4acd-4b02-4886-95c9-f8024542f60f
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: Tareas[NumCatg]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Fecha de creación'
+		formatString: Long Date
+		lineageTag: 7cf36257-ba9e-487a-96e6-e7ec9c5264e2
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Tareas[Fecha de creación]
+
+		variation Variación
+			isDefault
+			relationship: 93d37d0a-9dc7-4487-b5da-eef88fcdf017
+			defaultHierarchy: LocalDateTable_55c907d7-212a-4563-84c5-55eecd13b082.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Fecha de inicio'
+		formatString: Long Date
+		lineageTag: 4f33be3c-2f3b-4592-ab17-d0a232743fff
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Tareas[Fecha de inicio]
+
+		variation Variación
+			isDefault
+			relationship: ba00f660-a452-4fa1-8c83-0ddaa57fe99d
+			defaultHierarchy: LocalDateTable_2b29392d-5376-496e-97b4-d232c672804c.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Fecha de finalización'
+		formatString: Long Date
+		lineageTag: 72bdcfa0-64f5-49fd-80bf-fe056ecfcbb1
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Tareas[Fecha de finalización]
+
+		variation Variación
+			isDefault
+			relationship: 24c1cc0e-04df-4c52-aa70-80f4d4afd0cc
+			defaultHierarchy: LocalDateTable_aeb5a35e-6e45-4348-b2ac-7572b6c30f71.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition 'Cantidad de tareas' = calculated
+		mode: import
+		source =
+				
+				SUMMARIZE(Tareas,
+				Tareas[Id. de tarea ],
+				Tareas[Nombre de la tarea],
+				Tareas[Nombre del depósito],
+				Tareas[Categoria de Tiempo],
+				Tareas[NumCatg],
+				Tareas[Mes],
+				Tareas[Nombre del Mes],
+				Tareas[NumBucket],
+				Tareas[Descripción],
+				Tareas[Fecha de creación],
+				Tareas[Fecha de inicio],
+				Tareas[Fecha de finalización],
+				Tareas[Progreso])
+
+	annotation PBI_Id = 7ec1945a0a5f40d38c09aef1dd180167
+
