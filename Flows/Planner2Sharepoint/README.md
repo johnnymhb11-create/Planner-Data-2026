@@ -6,8 +6,9 @@ identificando cada fila por el ID único de la tarea de Planner (guardado en
 la columna `Title`).
 
 > La lista de SharePoint original fue eliminada; el flujo apunta ahora a la
-> tabla `87f7e23d-8407-4cd8-9bdb-ab599af14924` (mismo mapeo de campos
-> `field_1`…`field_14` que la lista anterior).
+> tabla `87f7e23d-8407-4cd8-9bdb-ab599af14924`, cuyas columnas ya no son
+> `field_1`…`field_14` genéricos sino nombres que corresponden a los campos
+> de Planner (ver mapeo abajo).
 
 ## Diagnóstico: por qué "rehacía cada tarea una y otra vez"
 
@@ -50,6 +51,44 @@ tareas/filas:
 3. Corregido `Update_item`: no seteaba `field_14` (asignados cuando la tarea
    se completa) como sí lo hacía `Create_item`; ahora ambas ramas quedan
    consistentes.
+
+## Mapeo de campos (Planner → SharePoint)
+
+La nueva lista fue creada con el esquema del export nativo de Planner
+("Datos de Planner"). Se hizo viajar cada columna de la hoja **Tareas** del
+Excel enviado que tiene equivalente en el esquema de SharePoint, usando el
+**nombre interno** real de la columna (tomado del `ListSchema` del CSV, no
+el display name):
+
+| Columna en Excel "Tareas" | Campo interno SharePoint | Origen en el flujo |
+|---|---|---|
+| Id. de tarea | `Title` | `id` de la tarea (clave de upsert) |
+| Nombre de la tarea | `Nombredelatarea` | `title` |
+| Depósito | `Dep_x00f3_sito` | `bucketId` (id crudo, igual que el Excel) |
+| Estado | `Estado` | `percentComplete` traducido a texto (0→"No iniciado", 50→"En curso", 100→"Completado") |
+| Priority | `Priority` | `priority` traducido a texto (1→"Urgente", 3→"Importante", 5→"Media", resto→"Baja") |
+| Asignado a | `Asignadoa` | `_assignments[].userId` unidos con `;` (id crudo, igual que el Excel) |
+| Fecha de creación | `Fechadecreaci_x00f3_n` | `createdDateTime` |
+| Fecha de vencimiento | `Fechadevencimiento` | `dueDateTime` |
+| Fecha de inicio | `Fechadeinicio` | `startDateTime` |
+| Con retraso | `Conretraso` | calculado: `'true'` si hay `dueDateTime`, ya pasó, y la tarea no está al 100%; si no, `'false'` |
+| Fecha de finalización | `Fechadefinalizaci_x00f3_n` | `completedDateTime` (la columna es de tipo Texto en el nuevo esquema) |
+| Completado por | `Completadopor` | `completedBy/user/id` (id crudo) |
+| Notas | `Notas` | `description` de la tarea, vía una llamada nueva `Get_task_details` (Planner no incluye la descripción en `List tasks`, hay que pedirla aparte por tarea) |
+
+Columnas del Excel **sin** equivalente en el esquema de SharePoint (no
+viajan): Objetivo, Creado por, Es periódica, Elementos de la lista de
+comprobación completados, Elementos de la lista de comprobación, Etiquetas.
+
+**Pendiente de verificar tras importar** (no lo pude confirmar sin acceso al
+conector en vivo de este tenant):
+- El `operationId` de la acción "Obtener detalles de tarea" de Planner lo
+  puse como `GetTaskDetails_V2`. Si al importar Power Automate marca esa
+  acción como inválida, hay que abrirla en el editor, buscar la acción
+  correcta de Planner para leer notas/descripción de una tarea por su id, y
+  reemplazar `Get_task_details` por esa.
+- Que la ruta `body('Get_task_details')?['description']` sea efectivamente
+  donde esa acción devuelve el texto de notas.
 
 ## Recomendaciones adicionales (fuera del flujo)
 
