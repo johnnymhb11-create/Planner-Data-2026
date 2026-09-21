@@ -46,11 +46,49 @@ tareas/filas:
    el problema del umbral de vista (ya no se filtra por `Title` en
    SharePoint) y reduce las llamadas de 2×N a N+1, bajando drásticamente el
    tiempo de ejecución.
-2. **Control de concurrencia en el trigger** (`concurrency.runs = 1`) para
-   que nunca haya dos corridas del flujo activas al mismo tiempo.
-3. Corregido `Update_item`: no seteaba `field_14` (asignados cuando la tarea
+2. Corregido `Update_item`: no seteaba `field_14` (asignados cuando la tarea
    se completa) como sí lo hacía `Create_item`; ahora ambas ramas quedan
    consistentes.
+
+## Actualización: throttling por control de concurrencia del trigger
+
+Después de la primera corrida real, Power Automate empezó a saltarse
+ejecuciones con el aviso "Trigger concurrency throttling detected". Causa:
+había puesto `concurrency.runs = 1` en el trigger para evitar corridas
+superpuestas (ver diagnóstico arriba), pero el control de concurrencia de un
+trigger de tipo Recurrence **no encola corridas indefinidamente** — si una
+corrida dura más que el intervalo, Power Automate empieza a descartar las
+siguientes en vez de esperarlas. No es la herramienta correcta para este
+caso (sirve para triggers que disparan varios eventos por sondeo, no para
+serializar un Recurrence).
+
+La corrida estaba tardando más de 1h20 porque `Get_task_details` (agregada
+para llenar "Notas") se estaba llamando para **todas** las tareas en cada
+corrida — miles de llamadas a Planner, que tiene límites de throttling
+bastante estrictos — en vez de solo para las tareas nuevas.
+
+Cambios:
+- **Se quitó `concurrency.runs` del trigger** (vuelve a su comportamiento
+  por defecto).
+- **`Get_task_details` ahora solo se llama al crear una tarea nueva**
+  (dentro de la rama `Create_item`), no en cada actualización. Esto reduce
+  las llamadas a Planner de "todas las tareas cada hora" a "solo las tareas
+  nuevas de esa hora", que debería ser un número mucho más chico en
+  corridas normales (la primera corrida completa, con ~6000 tareas nuevas,
+  sí va a tardar más).
+  - **Trade-off**: como consecuencia, si la descripción/notas de una tarea
+    cambia en Planner *después* de que ya fue creada en SharePoint, ese
+    cambio ya no se reflejará (Notas solo se completa una vez, al crear la
+    fila). Si necesitas que Notas se mantenga sincronizada con Planner en
+    cada actualización, se puede volver a llamar `Get_task_details` también
+    en `Update_item`, pero eso reintroduce el mismo problema de duración
+    que causó el throttling — avísame y lo ajustamos con esa
+    contrapartida en mente.
+  - Riesgo residual de duplicados: al no haber control de concurrencia, si
+    dos corridas llegaran a superponerse, solo las tareas genuinamente
+    nuevas creadas en esa ventana podrían duplicarse (las que ya existen
+    siempre se actualizan de forma segura). Si el plan de Planner no crece
+    muy rápido tarea a tarea, este riesgo es bajo.
 
 ## Mapeo de campos (Planner → SharePoint)
 
@@ -109,4 +147,4 @@ conector en vivo de este tenant):
    flujo existente "Planner a Sharepoint List".
 2. Al importar, reconectar las conexiones de Planner y SharePoint si se
    piden.
-3. Verificar que el trigger quedó con "Concurrency Control" activado en 1.
+3. Verificar que en el trigger "Concurrency Control" quede **apagado**.
