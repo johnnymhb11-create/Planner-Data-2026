@@ -5,6 +5,10 @@ Planner y hace upsert (agregar/actualizar) en la lista de SharePoint,
 identificando cada fila por el ID único de la tarea de Planner (guardado en
 la columna `Title`).
 
+> La lista de SharePoint original fue eliminada; el flujo apunta ahora a la
+> tabla `87f7e23d-8407-4cd8-9bdb-ab599af14924` (mismo mapeo de campos
+> `field_1`…`field_14` que la lista anterior).
+
 ## Diagnóstico: por qué "rehacía cada tarea una y otra vez"
 
 El flujo original, por cada tarea de Planner, hacía dos llamadas HTTP
