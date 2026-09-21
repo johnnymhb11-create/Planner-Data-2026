@@ -41,11 +41,16 @@ tareas/filas:
 1. **Una sola lectura de SharePoint por corrida**, en vez de una por tarea:
    `Get_all_Sharepoint_items` trae `Id` y `Title` de todos los elementos una
    vez (con paginación hasta 100k), antes del `Apply_to_each`. Dentro del
-   loop, `Find_existing_item` busca la tarea en memoria con
-   `filter(...)` / `first(...)`, sin llamadas HTTP adicionales. Esto elimina
-   el problema del umbral de vista (ya no se filtra por `Title` en
-   SharePoint) y reduce las llamadas de 2×N a N+1, bajando drásticamente el
-   tiempo de ejecución.
+   loop, `Find_existing_item` (acción nativa **Filter array**, `type: Query`)
+   busca la tarea en memoria comparando `Title` contra el id de la tarea de
+   Planner, sin llamadas HTTP adicionales. Esto elimina el problema del
+   umbral de vista (ya no se filtra por `Title` en SharePoint) y reduce las
+   llamadas de 2×N a N+1, bajando drásticamente el tiempo de ejecución.
+   (Nota: la primera versión usaba una expresión `filter(...)` dentro de un
+   `Compose`, pero esa función no existe en el lenguaje de expresiones de
+   Power Automate — el runtime la rechaza con "template function 'filter' is
+   not defined". Por eso se usa la acción **Filter array**, que sí soporta
+   `item()` en su cláusula `where`.)
 2. Corregido `Update_item`: no seteaba `field_14` (asignados cuando la tarea
    se completa) como sí lo hacía `Create_item`; ahora ambas ramas quedan
    consistentes.
