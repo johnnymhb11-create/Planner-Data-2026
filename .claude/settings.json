@@ -6,5 +6,8 @@
         "repo": "microsoft/power-platform-skills"
       }
     }
+  },
+  "enabledPlugins": {
+    "power-automate@power-platform-skills": true
   }
 }
