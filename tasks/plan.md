@@ -10,18 +10,21 @@ Buzón compartido "cuentas por pagar" → una persona valida y reenvía a un res
 
 Causa raíz probable: el flujo corre con la conexión/permisos de cada persona (reglas de correo, conexiones vencidas, reenvíos que no activan el disparador). Sin registro central ni alertas de fallo.
 
-## 2. Objetivo
-Una sola app donde:
-1. Cada correo que llega al buzón aparece automáticamente como una **solicitud**.
-2. El revisor la valida y la **asigna con un dropdown** a la persona responsable.
-3. Al asignar, se envía un **correo** informando "La solicitud X fue asignada a Y".
-4. Todo queda registrado (quién, cuándo, estado) en un lugar central.
+## 2. Objetivo (actualizado con tu aclaración)
+Una herramienta centralizadora y automatizada de seguimiento, conectada a Outlook, donde:
+1. Cada correo que llega al buzón aparece automáticamente como una **solicitud** (ninguno se pierde; hay conciliación contra el buzón).
+2. La persona encargada **ve el correo dentro de la app** y lo **asigna con un dropdown** al responsable.
+3. Al asignar se dispara un flujo que **crea la tarea en Planner** (con el mismo formato de hoy) para seguir alimentando las métricas del reporte de Power BI.
+4. La app muestra **quién tiene qué** (asignaciones por persona) y las **solicitudes pendientes** (sin asignar / asignadas sin completar), con antigüedad.
+5. (Opcional, D2) Se envía correo de aviso de la asignación.
+
+Decisión ya tomada: **Planner se mantiene** como destino de las tareas (resuelve D3).
 
 ## 3. Supuestos (corrígeme)
 1. Microsoft 365 con Power Apps y Power Automate (ya usan Power Automate y SharePoint).
 2. Existe un único revisor principal (tú) y 1–2 suplentes; los responsables son ~5–15 personas.
 3. El correo de asignación va al responsable (con copia a ti y al buzón); no solo a ti.
-4. Se conserva Planner/Excel mientras el reporte de Power BI `Planner CXP 2026 2.0` dependa de él (ver decisión D3).
+4. Planner sigue siendo la fuente de las métricas: el reporte `Planner CXP 2026 2.0` lee el Excel `Cuentas por pagar y Pagos 2026.xlsx` (hoja `Tareas`, alimentada desde Planner). La app NO reemplaza Planner; lo alimenta. Hay que confirmar cómo se genera ese Excel (D9).
 5. Volumen bajo/medio (decenas a pocos cientos de correos/día).
 
 ## 4. Opciones de arquitectura
@@ -42,11 +45,14 @@ Buzón compartido ──(1) Flujo "Ingesta"──▶ Lista SharePoint "Solicitud
                       Power Apps "Solicitudes CxP" ◀──(2) revisor ve bandeja
                                               │ asigna (dropdown de lista "Personas")
                                               ▼
-                              (3) Flujo "Asignación"
-                                 ├─ envía correo (asignado + revisor, desde el buzón)
-                                 ├─ actualiza estado/fechas
-                                 └─ [opcional D3] crea tarea en Planner
-                              (4) Flujo "Monitor": alerta si algo falla o hay solicitudes sin asignar > N horas
+                              (3) Flujo "Asignación" (disparado desde la app)
+                                 ├─ crea la tarea en Planner (plan, bucket, título, asignado, fechas, descripción + enlace al correo)
+                                 ├─ guarda PlannerTaskId en la solicitud y marca Estado = Asignada
+                                 └─ [opcional D2] envía correo de aviso
+                              (4) Flujo "Sincronización Planner": actualiza en la solicitud el progreso (No iniciado/En curso/Completado)
+                                  de la tarea de Planner, para que la app muestre el estado real
+                              (5) Flujo "Monitor/Conciliación": alerta de fallos, de solicitudes sin asignar > N horas, y
+                                  compara cada noche el buzón vs. la lista para detectar correos no ingestados
 ```
 
 **Por qué esto arregla la fiabilidad:**
@@ -62,19 +68,27 @@ Buzón compartido ──(1) Flujo "Ingesta"──▶ Lista SharePoint "Solicitud
 **Personas** (catálogo del dropdown): Nombre, Correo, Activo, Bucket(s) que maneja.
 **Errores** (log del flujo): fecha, flujo, mensaje, MessageId.
 
+Campos adicionales en **Solicitudes**: PlannerTaskId, PlannerBucket, ProgresoPlanner (sincronizado), FechaVencimiento.
+El **Excel/Planner resultante debe conservar las columnas que usa el reporte** (Id. de tarea, Nombre de la tarea, Nombre del depósito=bucket, Progreso, Asignado a, Fecha de creación/inicio/vencimiento/finalización, etc.); las tareas creadas por la app deben usar los mismos nombres de bucket (Cuentas por Pagar, Asignación de Diarios de Pagos, Diarios de Pago, Presupuesto, Presupuesto - En Espera de Respuesta).
+
 Estados válidos y transiciones: Nueva → Asignada → En curso → Completada; Nueva → Descartada; Asignada → Reasignada (misma tabla, nuevo AsignadoA + registro).
 
 ## 7. Pantallas (v1)
 1. **Bandeja**: lista de solicitudes Nuevas (primero las más antiguas), filtros por estado/remitente.
 2. **Detalle/Asignar**: asunto, remitente, cuerpo, adjuntos, dropdown de persona, prioridad/categoría, botón **Asignar** (confirma y dispara flujo).
-3. **Mis solicitudes** (responsables): solo lo asignado a ellos, marcar En curso/Completada.
-4. **Historial** (revisor): todo, con tiempos (para reporte).
+3. **Quién tiene qué**: asignaciones agrupadas por persona (conteo y lista de abiertas, antigüedad en días hábiles, enlace a la tarea de Planner).
+4. **Pendientes**: sin asignar + asignadas sin completar, ordenadas por antigüedad, con alerta de atraso.
+5. **Historial**: todo, con tiempos de asignación y cierre.
+(La vista "Mis solicitudes" para responsables queda opcional, según D4; el trabajo diario de ellos sigue en Planner.)
 
 ## 8. Decisiones que necesito de ti
 - **D1** ¿Opción A (recomendada) o B/C?
 - **D2** ¿A quién va el correo de asignación: responsable + tú + buzón, o solo tú?
-- **D3** ¿Seguimos creando la tarea en Planner (para no romper el reporte de Power BI) o el reporte pasa a leer la lista de SharePoint? Recomendado: crear ambas en una fase transitoria, luego migrar el reporte.
-- **D4** ¿Los responsables usan la app (marcar En curso/Completada) o solo reciben el correo y tú actualizas?
+- **D3** RESUELTA: se crea la tarea en Planner al asignar.
+- **D4** ¿Los responsables usan la app o solo Planner? (Asumo solo Planner; la app lee su progreso.)
+- **D9** ¿Qué plan de Planner y qué buckets se usan, y cómo se exporta hoy el Excel que lee Power BI (manual, flujo, Excel de Planner)? La tarea creada debe caer ahí.
+- **D10** ¿Una solicitud = una tarea, o un correo puede generar varias tareas (p. ej. un correo con varias facturas)?
+- **D11** ¿Quién usa la app para asignar: solo tú o varios encargados?
 - **D5** ¿Adjuntos y cuerpo se guardan en SharePoint o solo el enlace al correo?
 - **D6** ¿Quién es la cuenta propietaria del flujo (cuenta de servicio vs. tu usuario)? ¿Quién da permiso de "enviar como" el buzón?
 - **D7** ¿Categoría/bucket se asigna manualmente o se detecta por asunto/palabras clave?
@@ -93,12 +107,14 @@ Estados válidos y transiciones: Nueva → Asignada → En curso → Completada;
 **Fase 2 – App: bandeja + asignación**
 - T2.1 Bandeja y detalle (solo lectura). *Verify:* revisor ve las solicitudes de prueba.
 - T2.2 Dropdown de personas + botón Asignar (cambia Estado/Fecha). *Verify:* datos actualizados en la lista.
-- T2.3 Flujo Asignación: correo + registro (+ Planner si D3). *Verify:* correo llega a asignado y revisor con asunto/enlace correctos.
+- T2.3 Flujo Asignación: crea tarea en Planner (bucket correcto, asignado, descripción con enlace al correo), guarda PlannerTaskId, aviso por correo si D2. *Verify:* tarea aparece en Planner del responsable con los campos esperados y la fila queda "Asignada" con PlannerTaskId; reintentar no crea tarea duplicada.
 
-**Fase 3 – Responsables y fiabilidad**
-- T3.1 "Mis solicitudes" y cambio de estado (si D4). *Verify:* un responsable solo ve lo suyo.
-- T3.2 Flujo Monitor: alertas de fallo y de "sin asignar > N horas". *Verify:* forzar un error y confirmar alerta.
-- T3.3 Reasignación con historial.
+**Fase 3 – Seguimiento y fiabilidad**
+- T3.1 Vistas "Quién tiene qué" y "Pendientes". *Verify:* conteos por persona coinciden con Planner.
+- T3.2 Flujo Sincronización de progreso Planner → solicitud. *Verify:* completar una tarea en Planner se refleja en la app.
+- T3.3 Flujo Monitor/Conciliación: fallos, "sin asignar > N horas" y comparación buzón vs. lista. *Verify:* forzar un error y quitar una fila de prueba; ambos se alertan.
+- T3.4 Reasignación con historial (actualiza la tarea de Planner).
+- T3.5 Verificación con Power BI: la tarea creada por la app aparece en el reporte con bucket, fechas y asignado correctos.
 
 **Fase 4 – Piloto y cambio**
 - T4.1 Piloto en paralelo con el proceso actual 1–2 semanas; comparar conteo de correos vs. solicitudes (debe coincidir 100%).
@@ -112,7 +128,8 @@ Orden/dependencias: 0 → 1 → 2 → 3 → 4. T2.1 y T1.2 pueden solaparse tras
 | No hay permiso de "Enviar como" el buzón | Enviar desde la cuenta de servicio; confirmar en T0.1 |
 | Límite de delegación/umbral de 5000 filas en SharePoint | Índices en Estado/FechaRecibido, archivo mensual |
 | Correos con adjuntos grandes/formatos raros | Guardar adjuntos en biblioteca y enlazar; probar en T1.2 |
-| El reporte de Power BI depende de Planner | Fase transitoria con ambos (D3) |
+| El reporte de Power BI depende de Planner | Se sigue creando en Planner con los mismos buckets/campos; T3.5 lo valida |
+| Planner no permite fijar todos los campos al crear (p. ej. progreso, fecha de creación es automática) | Confirmar en T0.1 qué campos admite la acción de Planner; la fecha de creación será la de asignación, no la del correo (impacta DiasHabiles; decidir si se guarda FechaRecibido aparte) |
 | Un solo punto de fallo (el flujo) | Monitor + co-propietarios + log de errores |
 | Resistencia al cambio | Piloto en paralelo y apagado gradual |
 
